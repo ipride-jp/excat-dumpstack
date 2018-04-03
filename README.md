@@ -1,13 +1,15 @@
-1.agent‚ğw’è‚·‚é‚ÆAAgentRoution.cpp‚É‚ ‚éAgent_OnLoadŠÖ”‚ªÀs‚³‚ê‚éB
-2.Agent_OnLoad‚Å‚ÍAVM‚ÌŠeíCallBack‚ğw’è‚·‚éBw’è‚³‚ê‚éŠÖ”‚ÍAƒNƒ‰ƒXAgentCallbackHandler‚É’è‹`‚³‚ê‚Ä‚¢‚éB
-3.ˆÈ‰º‚Ìw’è‚ÅASingal‚É‚æ‚éƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğs‚¤B
+1. agentã‚’æŒ‡å®šã™ã‚‹ã¨ã€AgentRoution.cppã«ã‚ã‚‹Agent_OnLoadé–¢æ•°ãŒå®Ÿè¡Œã•ã‚Œã‚‹ã€‚
+1. Agent_OnLoadã§ã¯ã€VMã®å„ç¨®CallBackã‚’æŒ‡å®šã™ã‚‹ã€‚æŒ‡å®šã•ã‚Œã‚‹é–¢æ•°ã¯ã€ã‚¯ãƒ©ã‚¹AgentCallbackHandlerã«å®šç¾©ã•ã‚Œã¦ã„ã‚‹ã€‚
+1. ä»¥ä¸‹ã®æŒ‡å®šã§ã€Singalã«ã‚ˆã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ€ãƒ³ãƒ—ã‚’è¡Œã†ã€‚
+```
     callbacks.DataDumpRequest = &AgentCallbackHandler::dataDumpRequest;
-  @@¨ AgentRoutine::activateAgentThread()
-        ¨AgentRoutine::dumpAllThreadsForSignal()
-         ¨AgentRoutine::dumpStackOneThreadForSignal()
-          ¨stackTrace->writeToFile(fileNameBuf.c_str(),jni);
-4.Excat‚ÌŠÄ‹ƒc[ƒ‹‚ÉŒÄ‚Î‚ê‚éJavaƒNƒ‰ƒX‚ÍAHelloWorld_forJava5‚ÌƒvƒƒWƒFƒNƒg‚Å’è‹`‚·‚éB
-
+  ã€€ã€€â†’ AgentRoutine::activateAgentThread()
+        â†’AgentRoutine::dumpAllThreadsForSignal()
+         â†’AgentRoutine::dumpStackOneThreadForSignal()
+          â†’stackTrace->writeToFile(fileNameBuf.c_str(),jni);
+```
+1. Excatã®ç›£è¦–ãƒ„ãƒ¼ãƒ«ã«å‘¼ã°ã‚Œã‚‹Javaã‚¯ãƒ©ã‚¹ã¯ã€HelloWorld_forJava5ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§å®šç¾©ã™ã‚‹ã€‚
+```
   Callbacks
     callback()
     native dumpstack()
@@ -17,4 +19,5 @@
     sendMailForMethod()
 
   DumpMailer
-    send()          
+    send()
+```
