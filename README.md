@@ -1,2 +1,20 @@
-# excat-dumpstack
-Excatç›£è¦–ãƒ€ãƒ³ãƒ—
+1.agent‚ğw’è‚·‚é‚ÆAAgentRoution.cpp‚É‚ ‚éAgent_OnLoadŠÖ”‚ªÀs‚³‚ê‚éB
+2.Agent_OnLoad‚Å‚ÍAVM‚ÌŠeíCallBack‚ğw’è‚·‚éBw’è‚³‚ê‚éŠÖ”‚ÍAƒNƒ‰ƒXAgentCallbackHandler‚É’è‹`‚³‚ê‚Ä‚¢‚éB
+3.ˆÈ‰º‚Ìw’è‚ÅASingal‚É‚æ‚éƒXƒŒƒbƒhƒ_ƒ“ƒv‚ğs‚¤B
+    callbacks.DataDumpRequest = &AgentCallbackHandler::dataDumpRequest;
+  @@¨ AgentRoutine::activateAgentThread()
+        ¨AgentRoutine::dumpAllThreadsForSignal()
+         ¨AgentRoutine::dumpStackOneThreadForSignal()
+          ¨stackTrace->writeToFile(fileNameBuf.c_str(),jni);
+4.Excat‚ÌŠÄ‹ƒc[ƒ‹‚ÉŒÄ‚Î‚ê‚éJavaƒNƒ‰ƒX‚ÍAHelloWorld_forJava5‚ÌƒvƒƒWƒFƒNƒg‚Å’è‹`‚·‚éB
+
+  Callbacks
+    callback()
+    native dumpstack()
+    native dumpstackForMethod()
+    native registerInstance()
+    sendMailForException()
+    sendMailForMethod()
+
+  DumpMailer
+    send()          
