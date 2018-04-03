@@ -1,0 +1,80 @@
+# -*- mode: Makefile -*-
+# Makefile for Excat dumptools(hp 64 bit,Java 5 )
+# $Id$
+
+JAVA_HOME=/opt/java1.5/
+DESTDIR = 
+
+jnisrcdir = ./src/jniutility
+commonsrcdir = ./src/common
+outputsrcdir = ./src/output
+classsrcdir = ./src/classfileoperation
+antlrlibsrcdir = ./src/antlrlib
+antlrparsesrcdir = ./src/antlrparse
+objdir = ./obj
+prefix = /usr/
+datadir = $(prefix)share/
+libdir = $(prefix)lib/pa20_64/
+EXCAT_HOME = $(datadir)ccat/
+DUMPSTACK_DIR = $(EXCAT_HOME)DumpStack/
+
+CXX = aCC 
+LINK = aCC 
+CXXFLAGS = +DD64 -AA +Z +u4 -c -D_RWSTD_MULTI_THREAD -D_REENTRANT -mt -D_HPUX -D_POSIX_C_SOURCE=199506L -D_XOPEN_SOURCE_EXTENDED -D_CCAT_HPUX -D_BIT64 -D_LINUX -DDEFAULT_CCAT_HOME='"$(EXCAT_HOME)"'
+INCLUDEFLAGS = -I/opt/aCC/include_std/ -I$(JAVA_HOME)include/ -I$(JAVA_HOME)include/hp-ux/ -I./include
+LIBS_D = -lxerces-c -llicense -lssl -lcrypto -lCsup_v2 -lstream -lstd_v2 -lpthread
+DUMPSTACK_SO = libDumpStack.sl
+OBJJNI = $(objdir)/AgentCallbackHandler.o $(objdir)/AgentRoutine.o $(objdir)/Monitor.o $(objdir)/SignalHandlerRegister.o
+OBJOUTPUT = $(objdir)/Attribute.o $(objdir)/Method.o $(objdir)/Instance.o $(objdir)/ObjectData.o $(objdir)/ObjectPool.o $(objdir)/StackTrace.o $(objdir)/SuperClass.o $(objdir)/ThisObject.o $(objdir)/TypedElement.o
+OBJCOMMON = ${objdir}/Config.o ${objdir}/Logger.o ${objdir}/DumpObject.o ${objdir}/Global.o ${objdir}/HelperFunc.o ${objdir}/JniLocalRefAutoRelease.o ${objdir}/JvmtiAutoRelease.o \
+			${objdir}/JvmUtilFunc.o ${objdir}/MonitoringClass.o ${objdir}/MonitoringInstance.o ${objdir}/MonitoringMethod.o ${objdir}/MonitoringTarget.o ${objdir}/ExcludeClass.o ${objdir}/ObjectAutoRelease.o ${objdir}/OutputSetting.o \
+			${objdir}/ReadCfgFileException.o ${objdir}/SystemInfo.o  ${objdir}/SimpleStackTrace.o
+OBJCLASSFILEOPERATION = $(objdir)/AttributeInfo.o $(objdir)/BaseInfo.o $(objdir)/ClassFile.o $(objdir)/CpInfo.o $(objdir)/FieldInfo.o $(objdir)/MethodInfo.o $(objdir)/OpCodeScan.o
+OBJANTLRLIB = $(objdir)/ANTLRUtil.o $(objdir)/ASTFactory.o $(objdir)/ASTNULLType.o $(objdir)/ASTRefCount.o $(objdir)/BaseAST.o $(objdir)/BitSet.o $(objdir)/CharBuffer.o \
+			$(objdir)/CharScanner.o $(objdir)/CommonAST.o $(objdir)/CommonASTWithHiddenTokens.o $(objdir)/CommonHiddenStreamToken.o $(objdir)/CommonToken.o \
+			$(objdir)/InputBuffer.o $(objdir)/LLkParser.o $(objdir)/MismatchedCharException.o $(objdir)/MismatchedTokenException.o $(objdir)/NoViableAltException.o \
+			$(objdir)/NoViableAltForCharException.o $(objdir)/Parser.o $(objdir)/RecognitionException.o $(objdir)/String.o $(objdir)/Token.o $(objdir)/TokenBuffer.o \
+			$(objdir)/TokenRefCount.o $(objdir)/TokenStreamBasicFilter.o $(objdir)/TokenStreamHiddenTokenFilter.o $(objdir)/TokenStreamRewriteEngine.o \
+			$(objdir)/TokenStreamSelector.o $(objdir)/TreeParser.o 
+OBJANTLRPARSE = $(objdir)/CcatFormatException.o $(objdir)/CcatLexer.o $(objdir)/CcatParser.o $(objdir)/CcatTypeValue.o $(objdir)/MismatchedUnicodeCharException.o
+
+all: ${DUMPSTACK_SO}
+	@echo
+	@echo "Build complete."
+
+install: all
+	mkdir -p $(DESTDIR)$(libdir)
+	rm -f $(libdir)libDumpStack.*
+	cp libDumpStack.sl $(DESTDIR)$(libdir)
+	mkdir -p $(DESTDIR)$(EXCAT_HOME)log/
+	mkdir -p $(DESTDIR)$(DUMPSTACK_DIR)
+	cp Callbacks.class $(DESTDIR)$(DUMPSTACK_DIR)
+	cp Configuration.xsd $(DESTDIR)$(DUMPSTACK_DIR)
+	cp DumpStack.config $(DESTDIR)$(DUMPSTACK_DIR)
+
+${DUMPSTACK_SO}:  ${OBJJNI} ${OBJCOMMON} ${OBJCLASSFILEOPERATION} ${OBJOUTPUT} ${OBJANTLRLIB} ${OBJANTLRPARSE}  
+	${LINK} +DD64 -AA -mt -D_RWSTD_MULTI_THREAD -D_REENTRANT -b -o $@ ${objdir}/*.o ${LIBS_D}
+
+${objdir}/%.o: ${jnisrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${commonsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${classsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${outputsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${antlrlibsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${antlrparsesrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+	
+clean:
+	rm -f ./obj/*.*
+	rm -f libDumpStack.sl
+
+# the end of file

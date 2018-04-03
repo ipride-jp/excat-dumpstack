@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by tiantian (tiantian) -->
+<!-- edited with XMLSpy v2006 sp2 U (http://www.altova.com) by guan (intellilink) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Task" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="MonitoringTargets" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>    
+										<xs:element name="MonitoringTarget" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Throwable" type="ThrowableType" minOccurs="1" maxOccurs="1"/>
+													<xs:element name="Place" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:attribute name="Class" type="xs:string" default="" />
+															<xs:attribute name="MethodName" type="xs:string" default="" />
+															<xs:attribute name="MethodSignature" type="xs:string" default=""/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="Filters" minOccurs="0" maxOccurs="1" type="FiltersType"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="MonitoringMethod" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Method" minOccurs="1" maxOccurs="unbounded" type="MethodType"/>
+												</xs:sequence>
+												<xs:attribute name="Class"  type="xs:string" use="required"/>
+												<xs:attribute name="ClassLoaderString" type="xs:string" default=""/>
+												<xs:attribute name="Suffix" type="xs:string" default=""/>
+											</xs:complexType>
+										</xs:element>
+	                                    <xs:element name="MonitoringSignal" minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:attribute name="DumpKind" type="xs:int" default="1"/>
+											</xs:complexType>
+                                        </xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DumpData" minOccurs="1" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="StackTraceDepth" type="xs:int" default="15"/>
+									<xs:attribute name="AttributeNestDepth" type="xs:int" default="3"/>
+									<xs:attribute name="Variable" type="xs:boolean" default="true"/>
+									<xs:attribute name="Argument" type="xs:boolean" default="true"/>
+									<xs:attribute name="Attribute" type="xs:boolean" default="true"/>
+									<xs:attribute name="Public" type="xs:boolean" default="true"/>
+									<xs:attribute name="Package" type="xs:boolean" default="false"/>
+									<xs:attribute name="Protected" type="xs:boolean" default="false"/>
+									<xs:attribute name="Private" type="xs:boolean" default="false"/>
+									<xs:attribute name="DumpInstance" type="xs:boolean" default="false"/>
+									<xs:attribute name="MaxArrayElementForObject" type="xs:int" default="100"/>
+									<xs:attribute name="MaxArrayElementForPrimitive" type="xs:int" default="100"/>
+                                    <xs:attribute name="Mail" type="xs:boolean" default="false" use="optional"/>
+                                    <xs:attribute name="AttachFile" type="xs:boolean" default="false" use="optional"/>
+                                    <xs:attribute name="SaveDays" type="xs:short" default="0"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Comment"  type="xs:string" default=""/>
+					</xs:complexType>
+				</xs:element> 
+				<xs:element name="DumpInstance" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Instance" minOccurs="1" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="Class"  type="xs:string" use="required"/>
+									<xs:attribute name="ClassLoaderString" type="xs:string" default=""/>
+									<xs:attribute name="MaxInstanceCount" type="xs:int" default="32"/>
+									<xs:attribute name="Valid" type="xs:boolean" default="true"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ObjectElement" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Object" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Field" minOccurs="0" maxOccurs="unbounded" type="FieldType"/>
+									</xs:sequence>
+									<xs:attribute name="Class" type="xs:string" use="required"/>
+									<xs:attribute name="Valid" type="xs:boolean" default="true"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Others" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DumpFile" minOccurs="1" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="Path" type="xs:string" use="required"/>
+									<xs:attribute name="Prefix" type="xs:string" use="required"/>
+									<xs:attribute name="MinDiskSpace" type="xs:short" default="100"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CheckConfig" minOccurs="1" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="Sleep" type="xs:int" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="MaxDumpData" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="Limit" type="xs:int" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Log" minOccurs="1" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="Path" type="xs:string" use="required"/>
+									<xs:attribute name="Level" type="xs:string" default="info"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Mail" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="From" type="xs:string" use="required"/>
+									<xs:attribute name="FromName" type="xs:string"/>
+									<xs:attribute name="To" type="xs:string" use="required"/>
+									<xs:attribute name="Subject" type="xs:string" use="required"/>
+									<xs:attribute name="BodyTemplateFolderPath" type="xs:string" use="optional"/>
+									<xs:attribute name="SmtpServer" type="xs:string" use="required"/>
+									<xs:attribute name="SmtpServerPort" type="xs:int"/>
+									<xs:attribute name="IsAuth" type="xs:boolean" default="false"/>
+									<xs:attribute name="UseTLS" type="xs:boolean" default="false"/>
+									<xs:attribute name="Account" type="xs:string"/>
+									<xs:attribute name="Password" type="xs:string"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CheckDuplication" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="DumpDuplicationWhenThreadDiff" type="xs:boolean" use="required"/>
+									<xs:attribute name="TimeLimit" type="xs:int" use="required"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="UserInfo" minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:attribute name="CompanyName"  type="xs:string" default=""/>
+									<xs:attribute name="SystemName"  type="xs:string" default=""/>
+									<xs:attribute name="Comment"  type="xs:string" default=""/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="FiltersType">
+		<xs:sequence>
+  			<xs:element name="Filter" minOccurs="1" maxOccurs="unbounded" type="FilterType" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FieldType">
+		<xs:attribute name="Name" type="xs:string" use="required"/>
+		<xs:attribute name="Valid" type="xs:boolean" default="true"/>
+	</xs:complexType>
+	<xs:complexType name="FilterType">
+		<xs:sequence>
+			<xs:element name="ExcludePlace" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="Class" type="xs:string" default="" />
+					<xs:attribute name="MethodName" type="xs:string" default="" />
+					<xs:attribute name="MethodSignature" type="xs:string" default=""/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="ExcludeClass" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="ThrowableType">
+		<xs:attribute name="Class" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="MethodType">
+		<xs:attribute name="Name"         type="xs:string" use="required"/>
+		<xs:attribute name="Signature"    type="xs:string" default=""/>
+		<xs:attribute name="Condition"    type="xs:string" default=""/>
+		<xs:attribute name="MaxDumpCount" type="xs:int"    default="1"/>
+		<xs:attribute name="Suffix"       type="xs:string" default=""/>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,43 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.59)
+AC_INIT(dumpstack, 1.2, jiang@ipride.co.jp)
+LT_VERSION=2:0:0
+
+AC_SUBST(LT_VERSION)
+
+AM_INIT_AUTOMAKE(dumpstack,1.2.1)
+
+# Checks for programs.
+AM_PROG_LIBTOOL
+AC_PROG_INSTALL
+AC_PROG_CXX
+AC_PROG_CC
+
+AC_DEFINE(_LINUX)
+AC_DEFINE(DEFAULT_EXCAT_HOME,"/usr/share/excat/")
+
+# Checks for libraries.
+#AC_CHECK_LIB(license)
+#AC_CHECK_LIB(log4cxx)
+#AC_CHECK_LIB(xerces-c)
+#AC_CHECK_LIB(ssl)
+#AC_CHECK_LIB(crypto)
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([fcntl.h locale.h stdlib.h string.h unistd.h wchar.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_C_INLINE
+AC_STRUCT_TM
+
+# Checks for library functions.
+AC_FUNC_STAT
+AC_CHECK_FUNCS([gethostname memset setlocale strchr strstr strtol])
+
+AC_CONFIG_FILES([Makefile])
+AC_OUTPUT

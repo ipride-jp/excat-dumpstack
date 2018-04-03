@@ -1,0 +1,1 @@
+jar cvf dump.jar Callbacks.class DumpMailer.class Notifier.class Method.text Exception.text

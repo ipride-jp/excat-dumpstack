@@ -1,0 +1,78 @@
+ -*- mode: Makefile -*-
+# Makefile for Excat dumptools(centos x86_64 bit java 8.0)
+# $Id$
+
+#JAVA_HOME=/usr/lib/jvm/jre-1.8.0/
+JAVA_HOME=/usr/java/jdk1.8.0_131/
+DESTDIR = 
+
+jnisrcdir = ./src/jniutility
+commonsrcdir = ./src/common
+outputsrcdir = ./src/output
+classsrcdir = ./src/classfileoperation
+antlrlibsrcdir = ./src/antlrlib
+antlrparsesrcdir = ./src/antlrparse
+objdir = ./obj
+prefix = /usr/
+datadir = $(prefix)share/
+libdir = $(prefix)lib64/
+EXCAT_HOME = $(datadir)excat/
+DUMPSTACK_DIR = $(EXCAT_HOME)DumpStack/
+
+
+CXX = g++
+LINK = g++
+CXXFLAGS = -g -fPIC -std=c++11 -c -D_LINUX -D_BIT64 -DDEFAULT_EXCAT_HOME='"$(EXCAT_HOME)"'
+INCLUDEFLAGS = -I./include -I$(JAVA_HOME)include -I$(JAVA_HOME)include/linux
+LIBS_D = -lxerces-c -llicense
+DUMPSTACK_SO = libDumpStack.so.3.0.0
+OBJJNI = $(objdir)/AgentCallbackHandler.o $(objdir)/AgentRoutine.o $(objdir)/Monitor.o $(objdir)/ExceptionNameMan.o $(objdir)/ExceptionTableMan.o
+OBJOUTPUT = $(objdir)/Attribute.o  $(objdir)/Instance.o $(objdir)/Method.o $(objdir)/ObjectData.o $(objdir)/ObjectPool.o $(objdir)/StackTrace.o $(objdir)/SuperClass.o $(objdir)/ThisObject.o $(objdir)/TypedElement.o
+OBJCOMMON = ${objdir}/Config.o ${objdir}/Logger.o ${objdir}/DumpObject.o ${objdir}/Global.o ${objdir}/HelperFunc.o ${objdir}/JniLocalRefAutoRelease.o ${objdir}/JvmtiAutoRelease.o \
+			${objdir}/JvmUtilFunc.o ${objdir}/MonitoringClass.o ${objdir}/MonitoringInstance.o  ${objdir}/MonitoringMethod.o ${objdir}/MonitoringTarget.o ${objdir}/ExcludeClass.o ${objdir}/ObjectAutoRelease.o ${objdir}/OutputSetting.o \
+			${objdir}/ReadCfgFileException.o ${objdir}/SystemInfo.o  ${objdir}/SimpleStackTrace.o
+OBJCLASSFILEOPERATION = $(objdir)/AttributeInfo.o $(objdir)/BaseInfo.o $(objdir)/ClassFile.o $(objdir)/CpInfo.o $(objdir)/FieldInfo.o $(objdir)/MethodInfo.o $(objdir)/OpCodeScan.o $(objdir)/ExceptionInfo.o
+OBJANTLRLIB = $(objdir)/ANTLRUtil.o $(objdir)/ASTFactory.o $(objdir)/ASTNULLType.o $(objdir)/ASTRefCount.o $(objdir)/BaseAST.o $(objdir)/BitSet.o $(objdir)/CharBuffer.o \
+			$(objdir)/CharScanner.o $(objdir)/CommonAST.o $(objdir)/CommonASTWithHiddenTokens.o $(objdir)/CommonHiddenStreamToken.o $(objdir)/CommonToken.o \
+			$(objdir)/InputBuffer.o $(objdir)/LLkParser.o $(objdir)/MismatchedCharException.o $(objdir)/MismatchedTokenException.o $(objdir)/NoViableAltException.o \
+			$(objdir)/NoViableAltForCharException.o $(objdir)/Parser.o $(objdir)/RecognitionException.o $(objdir)/String.o $(objdir)/Token.o $(objdir)/TokenBuffer.o \
+			$(objdir)/TokenRefCount.o $(objdir)/TokenStreamBasicFilter.o $(objdir)/TokenStreamHiddenTokenFilter.o $(objdir)/TokenStreamRewriteEngine.o \
+			$(objdir)/TokenStreamSelector.o $(objdir)/TreeParser.o 
+OBJANTLRPARSE = $(objdir)/CcatFormatException.o $(objdir)/CcatLexer.o $(objdir)/CcatParser.o $(objdir)/CcatTypeValue.o $(objdir)/MismatchedUnicodeCharException.o
+
+all: ${DUMPSTACK_SO}
+	@echo
+	@echo "Build complete."
+
+install: all
+	rm -f $(libdir)libDumpStack.*
+	cp libDumpStack.so.3.0.0 $(DESTDIR)$(libdir)
+	ln -s $(libdir)libDumpStack.so.3.0.0 $(DESTDIR)$(libdir)libDumpStack.so.3
+	ln -s $(libdir)libDumpStack.so.3 $(DESTDIR)$(libdir)libDumpStack.so
+
+${DUMPSTACK_SO}: ${OBJJNI} ${OBJCOMMON} ${OBJCLASSFILEOPERATION} ${OBJOUTPUT} ${OBJANTLRLIB} ${OBJANTLRPARSE} 
+	${LINK} -shared -o  $@ ${objdir}/*.o ${LIBS_D}
+
+${objdir}/%.o: ${jnisrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${commonsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${classsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${outputsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${antlrlibsrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+${objdir}/%.o: ${antlrparsesrcdir}/%.cpp 
+	${CXX} ${CXXFLAGS} ${INCLUDEFLAGS} -o $@ $< 
+
+clean:
+	rm -f ./obj/*.*
+	rm -f libDumpStack.so*
+
+# the end of file

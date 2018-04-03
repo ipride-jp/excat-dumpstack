@@ -1,0 +1,3 @@
+﻿例外{ExceptionName}が発生しました。
+詳細について、下記のダンプファイルを参照してください。
+「{OutputFilePath}」
