@@ -1,23 +1,13 @@
-1. agentを指定すると、AgentRoution.cppにあるAgent_OnLoad関数が実行される。
-1. Agent_OnLoadでは、VMの各種CallBackを指定する。指定される関数は、クラスAgentCallbackHandlerに定義されている。
-1. 以下の指定で、Singalによるスレッドダンプを行う。
-    ```
-        callbacks.DataDumpRequest = &AgentCallbackHandler::dataDumpRequest;
-      　　→ AgentRoutine::activateAgentThread()
-            →AgentRoutine::dumpAllThreadsForSignal()
-             →AgentRoutine::dumpStackOneThreadForSignal()
-              →stackTrace->writeToFile(fileNameBuf.c_str(),jni);
-    ```
-1. Excatの監視ツールに呼ばれるJavaクラスは、HelloWorld_forJava5のプロジェクトで定義する。
-    ```
-      Callbacks
-        callback()
-        native dumpstack()
-        native dumpstackForMethod()
-        native registerInstance()
-        sendMailForException()
-        sendMailForMethod()
+<section class="sub-content"><h2 class="sub-title">Excat for Java</h2>
 
-      DumpMailer
-        send()
-    ```
+<h3 class="sub-title2">概要</h3>
+
+<p>Javaアプリケーション障害の原因解析を支援する障害情報取得・表示ツールです。</p>
+
+<h3 class="sub-title2">特長</h3>
+
+<ul class="li-square"><li>障害情報取得条件をリアルタイムに変更可能です。<br>
+	（対象プログラムのソースコードに手を加える必要はありません）</li>
+	<li>イベントトリガー型ですので性能への影響は軽微です。</li>
+
+</ul></section>
