@@ -9,5 +9,5 @@
 <ul class="li-square"><li>障害情報取得条件をリアルタイムに変更可能です。<br>
 	（対象プログラムのソースコードに手を加える必要はありません）</li>
 	<li>イベントトリガー型ですので性能への影響は軽微です。</li>
-
+<li><a href="https://github.com/ipride-jp/excat-dumpstack/wiki">詳しくはこちらから</a></li>
 </ul></section>
